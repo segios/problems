@@ -1,6 +1,6 @@
 # https://leetcode.com/problems/house-robber/
 # 198. House Robber
-# Easy
+# Medium
 # Dynamic Programming
 # C 
 # https://www.hackerearth.com/practice/algorithms/dynamic-programming/introduction-to-dynamic-programming-1/tutorial/
