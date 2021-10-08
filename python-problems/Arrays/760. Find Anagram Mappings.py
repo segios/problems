@@ -1,26 +1,36 @@
 # https://leetcode.com/problems/find-anagram-mappings/
 # 760. Find Anagram Mappings
 # Easy
-# Arrays, Hash Table
+# Strings, HashTable, Sorting
 # A
+
+import sys
 from typing import List
+from collections import Counter, defaultdict
 
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        subElDic = {}
+    def anagramMappings(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        dic = {x : i for i, x in enumerate(nums2)}
 
-        for i in range(len(nums)):
-            sub = target - nums[i]
-            if nums[i] in subElDic :
-                return [i, subElDic[nums[i]]]
-            subElDic[sub] = i
+        res = []
+        for v in nums1:
+            res.append(dic[v])
+        return res
 
+class SolutionS:
+    def anagramMappings(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        dic = defaultdict(list)
+        for i, v in enumerate(nums2):
+            dic[v].append(i)
+        
+        res = []
+        for v in nums1:
+            x = dic[v].pop()
+            res.append(x)
+        return res
+        
 
 solution = Solution()
 
-res = solution.twoSum([2,7,11,15], 9)
+res = solution.anagramMappings([12,28,46,32,50], [50,12,32,46,28])
 print (res)
-
-
-
-

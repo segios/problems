@@ -8,99 +8,67 @@
 from typing import List
 from _listHelpers import *
 from collections import OrderedDict, deque
+import heapq
 
-class TreeNode:
-    def __init__(self, value: int = 0, left = None, right = None):
-        self.val = value
-        self.left = left
-        self.right = right
-
-class Tree:
-    def __init__(self):
-        self.root = None
-    
-    def __add(self, x: int, node):
-        if(node.val == x):
-            newNode = TreeNode(x)
-            if node.right:
-                newNode.right = node.right
-                node.right = newNode
-            else:
-                node.right = newNode
-
-        if(node.val < x):
-            if node.right:
-                self.__add(x, node.right)
-            else:
-                node.right = TreeNode(x)
-        else:
-            if node.left:
-                self.__add(x, node.left)
-            else:
-                node.left = TreeNode(x)
-
-    def add(self, x: int):
-        if(not self.root):
-            self.root = TreeNode(x)
-            return
-        
-        self.__add(x, self.root) 
-
-    def __remove(self, x: int, node):
-        if(node.val == x):
-            if node.right:
-
-        if(node.val <= x):
-            if node.right:
-                self.__add(x, node.right)
-            else:
-                node.right = TreeNode(x)
-        else:
-            if node.left:
-                self.__add(x, node.left)
-            else:
-                node.left = TreeNode(x)
-
-    def remove(self, x: int):
-        if(not self.root):
-            return
-        
-        self.__remove(x, self.root) 
+class Item:
+    def __init__(self, val: int, ref = None):
+        self.val = val
+        self.ref = ref
+    def __lt__(self, other):    
+        return self.val < other.val
 
 class MaxStack:
 
     def __init__(self):
-        self.dic = deque()
-        self.root = Node()
-        self.tail = Node()
-        self.head.next = self.tail
-        self.tail.prev = self.head
+        self.stack = deque()
+        self.heapData = []
+        heapq.heapify(self.heapData)
+
+    def heapPush(self, item):
+        heapq.heappush(self.heapData, item)
+
+    def heapPop(self):
+        return heapq.heappush(self.heapData)
+
+    def heapPeek(self):
+        if len(self.heapData) == 0:
+            return None
+        return self.heapData[0]
 
     def push(self, x: int) -> None:
+        item = Item(x)
+        itemHeap = Item(x)
+        item.ref = itemHeap
+        itemHeap.ref = item
 
-        node = Node(x) 
-        node.prev = self.tail.prev
-        node.next = self.tail
-
-
-
-        self.tail.prev.next = node
-        self.tail.prev = node
-
-        self.dic[x] = x
-
-
+        self.stack.append(item)
+        self.heapPush(itemHeap)
+            
     def pop(self) -> int:
-        
+        if len(self.stack)  > 0:
+            it = self.stack.pop()
+            # remove from heap
+            #self.removeFromheap(it.ref)
+            return it.val
+        return None
 
     def top(self) -> int:
-        
+        if len(self.stack)  > 0:
+            it = self.stack.pop()
+            self.stack.append(it)
+            return it.val
+        return None
 
     def peekMax(self) -> int:
-        
+        if len(self.stack)  == 0:
+            return None
+        it = self.heapPeek()
+        return  it.val
 
     def popMax(self) -> int:
-        
+        it = self.heapPop()
+        self.stack.remove(it.ref)
+        return  it.val
 
 
 # Your MaxStack object will be instantiated and called as such:
@@ -111,5 +79,14 @@ class MaxStack:
 # param_4 = obj.peekMax()
 # param_5 = obj.popMax()
 
-solution = MaxStack()
+obj = MaxStack()
 
+obj.push(5)
+obj.push(1)
+obj.push(3)
+
+param_2 = obj.pop()
+param_3 = obj.top()
+param_4 = obj.peekMax()
+param_5 = obj.popMax()
+param_5 = obj.popMax()
