@@ -2,7 +2,7 @@
 # 160. Intersection of Two Linked Lists
 # Easy
 # Linked List
-# A
+# A/B
 
 
 from typing import List
@@ -13,8 +13,20 @@ from _listHelpers import *
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
-
 class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        if (not headA) or not headB:
+            return None
+
+        p1, p2 = headA, headB
+        while p1 != p2:
+            p1 = p1.next if p1 else headB
+            p2 = p2.next if p2 else headA
+
+        return p1
+
+
+class SolutionHT:
     def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
         dic = {}
         if (not headA) or not headB:
@@ -33,6 +45,6 @@ class Solution:
 
 solution = Solution()
 
-res = solution.addTwoNumbers(construct([4,1,8,4,5]), construct([5,6,1,8,4,5]))
+res = solution.getIntersectionNode(construct([4,1,8,4,5]), construct([5,6,1,8,4,5]))
 printList(res)
 
